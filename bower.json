@@ -1,0 +1,8 @@
+{
+  "name": "my-gulp-sass-livereload",
+  "private": true,
+  "dependencies": {
+    "bootstrap-sass": "~3.3.4"
+  },
+  "devDependencies": {}
+}

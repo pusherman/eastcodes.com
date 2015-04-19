@@ -1,0 +1,46 @@
+@import "bootstrap";
+
+html, body{
+    height: 100%;
+    background: #222;
+}
+
+.container-fluid {
+  height:100%;
+}
+
+img {
+  width:500px;
+}
+
+.row {
+  height:100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.logo img {
+  padding-top: 20%;
+}
+
+a {
+  color:#aaa;
+  font-size:12px;
+  letter-spacing: 2px;
+}
+
+.footer {
+  height:50px;
+  div {
+    position: absolute;bottom:20px;height:50px;text-align: center;width:100%
+  }
+}
+
+
+@media screen and (max-width: 550px) {
+  img {
+    width: 300px;
+  }
+}
