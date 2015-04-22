@@ -75,11 +75,12 @@ gulp.task('htmlmin', function() {
 });
 
 gulp.task('imagemin', function () {
-    return gulp.src('app/images/*')
-        .pipe(imagemin({
-            progressive: true,
-            svgoPlugins: [{removeViewBox: false}],
-            use: [pngquant()]
-        }))
-        .pipe(gulp.dest('dist/images'));
+  return gulp.src('app/images/*')
+             .pipe(imagemin({
+                progressive: true,
+                svgoPlugins: [{removeViewBox: false}],
+                use: [pngquant()]
+              }))
+              .pipe(gulp.dest('dist/images'));
 });
+
