@@ -84,3 +84,6 @@ gulp.task('imagemin', function () {
               .pipe(gulp.dest('dist/images'));
 });
 
+gulp.task('build', ['htmlmin', 'imagemin', 'cssmin'], function () {
+  return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
+});
