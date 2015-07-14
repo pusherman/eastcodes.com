@@ -41,35 +41,35 @@
 cd ExampleProject/node_modules/react-native-network-info
 npm init</code></pre>
 
-      <p>Note: if you want your module to appear on <a target="_blank" href="https://react.parts/native-ios">react.parts</a> add the following keywords: "react-component", "react-native" and "ios".</p>
+      <p class="post-meta">Note: if you want your module to appear on <a target="_blank" href="https://react.parts/native-ios">react.parts</a> add the following keywords: "react-component", "react-native" and "ios".</p>
 
 
       <h3>Create the project file in Xcode</h3>
 
       <p>Open Xcode, "Create a new Xcode Project", "Cocoa Touch Static Library" click Next, Create a Product Name (e.g. RNNetworkInfo) and save it in our newly created folder in the node_modules folder (ExampleProject/node_modules/react-native-network-info)</p>
+      <div class="post-meta">
+        <p>Optional: I personally prefer a flatter directory structure for smaller projects like this so first I close Xcode then move the project, .h and .m file from the RNNetworkInfo folder to our module directory.</p>
 
-      <p>Optional: I personally prefer a flatter directory structure for smaller projects like this so first I close Xcode then move the project, .h and .m file from the RNNetworkInfo folder to our module directory.</p>
+  <pre><code>cd ExampleProject/node_modules/react-native-network-info
+  mv RNNetworkInfo/RNNetworkInfo/* .
+  mv RNNetworkInfo/RNNetworkInfo.xcodeproj/ .
+  rm -rf RNNetworkInfo</code></pre>
 
-<pre><code>cd ExampleProject/node_modules/react-native-network-info
-mv RNNetworkInfo/RNNetworkInfo/* .
-mv RNNetworkInfo/RNNetworkInfo.xcodeproj/ .
-rm -rf RNNetworkInfo</code></pre>
+        <p>Open RNNetworkInfo.xcodeproj again and then correct the file location for both your .h and .m files.</p>
 
-      <p>Open RNNetworkInfo.xcodeproj again and then correct the file location for both your .h and .m files.</p>
+        <img src="images/react-native-modules/update_file_location.png" alt="Update File Locations" class="img-rounded img-responsive">
 
-      <img src="images/react-native-modules/update_file_location.png" alt="Update File Locations" class="img-rounded">
-
-      <p>Next make sure you click on the RNNetworkInfo project and delete the RNNetworkInfoTests target or you your build will fail.</p>
-      <img src="images/react-native-modules/delete_test_target.png" alt="Update File Locations" class="img-rounded">
-
+        <p>Next make sure you click on the RNNetworkInfo project and delete the RNNetworkInfoTests target or you your build will fail.</p>
+        <img src="images/react-native-modules/delete_test_target.png" alt="Update File Locations" class="img-rounded img-responsive">
+        </div>
 
       <h3>Develop your Objective-C (or Swift) Library</h3>
 
       <p>Check out <a target="_blank" href="https://facebook.github.io/react-native/docs/nativemodulesios.html">React Native's docs</a> for more details on how to pass data between Objective-C and React Native.</p>
 
-      <p>Note: if you get "RCTBridge.h" file not found-- in Xcode click on the project in the left nav pane then go to Build Settings and in Header Search Paths add <code>$(SRCROOT)/../react-native/React</code> and <code>$(SRCROOT)/../../React</code> mark both as "recursive"</p>
+      <p class="post-meta">Note: if you get "RCTBridge.h" file not found-- in Xcode click on the project in the left nav pane then go to Build Settings and in Header Search Paths add <code>$(SRCROOT)/../react-native/React</code> and <code>$(SRCROOT)/../../React</code> mark both as "recursive"</p>
 
-      <img src="images/react-native-modules/add_header_search_path.png" alt="Header Search Paths" class="img-rounded">
+      <img src="images/react-native-modules/add_header_search_path.png" alt="Header Search Paths" class="img-rounded img-responsive">
 
       <p>Build the project to make sure the build is successful.</p>
 
@@ -107,7 +107,7 @@ module.exports = NetworkInfo;</code></pre>
         Click on your Project then the "Build Phases" tab, Link Binary With Libraries, Plus icon to add, select libRNNetworkInfo.a and Add
       </p>
 
-      <img alt="Link Binary With Libraries" class="img-rounded" src="images/react-native-modules/add_library.png">
+      <img alt="Link Binary With Libraries" class="img-rounded img-responsive" src="images/react-native-modules/add_library.png">
 
       <h3>Use your library in ExampleProject</h3>
       <p>Click on the play icon to bring up the simulator and see your react native boilerplate app.  Once up, edit index.ios.js in your ExampleProject file, import and use your new package:</p>
@@ -118,7 +118,7 @@ NetworkInfo.getIPAddress(ip => {
   console.log(ip);
 });</code></pre>
 
-      <p>Note: the console.log output will be in Xcode's debug console.</p>
+      <p class="post-meta">Note: the console.log output will be in Xcode's debug console.</p>
 
       <h3>Share!</h3>
       <p>Once everything is complete just <a target="_blank" href="https://gist.github.com/coolaj86/1318304">publish your node_module to NPM</a> to make it easy for others to import :)</p>
