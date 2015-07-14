@@ -48,16 +48,19 @@ npm init</code></pre>
 
       <p>Open Xcode, "Create a new Xcode Project", "Cocoa Touch Static Library" click Next, Create a Product Name (e.g. RNNetworkInfo) and save it in our newly created folder in the node_modules folder (ExampleProject/node_modules/react-native-network-info)</p>
 
-      <p>I personally prefer a flatter directory structure for smaller projects like this so first I close Xcode then move the project, .h and .m file from the RNNetworkInfo folder to our module directory.</p>
+      <p>Optional: I personally prefer a flatter directory structure for smaller projects like this so first I close Xcode then move the project, .h and .m file from the RNNetworkInfo folder to our module directory.</p>
 
 <pre><code>cd ExampleProject/node_modules/react-native-network-info
 mv RNNetworkInfo/RNNetworkInfo/* .
 mv RNNetworkInfo/RNNetworkInfo.xcodeproj/ .
 rm -rf RNNetworkInfo</code></pre>
 
-      <p>Open RNNetworkInfo.xcodeproj again and then correct the file location for both your .h and .m files.  Also make sure you click on the RNNetworkInfo project and delete the RNNetworkInfoTests target or you your build will fail.</p>
+      <p>Open RNNetworkInfo.xcodeproj again and then correct the file location for both your .h and .m files.</p>
 
       <img src="images/react-native-modules/update_file_location.png" alt="Update File Locations" class="img-rounded">
+
+      <p>Next make sure you click on the RNNetworkInfo project and delete the RNNetworkInfoTests target or you your build will fail.</p>
+      <img src="images/react-native-modules/delete_test_target.png" alt="Update File Locations" class="img-rounded">
 
 
       <h3>Develop your Objective-C (or Swift) Library</h3>
