@@ -3,15 +3,16 @@
 html, body{
   height: 100%;
   background: #222;
-  font-weight: 100;
   font-family: 'Palanquin', sans-serif;
+  color:#ddd;
+  letter-spacing: 1px;
 }
 
 .container-fluid {
   height:100%;
 }
 
-img {
+img#logo {
   width:500px;
 }
 
@@ -49,7 +50,29 @@ a:hover {
 }
 
 @media screen and (max-width: 550px) {
-  img {
+  img#logo {
     width: 300px;
+  }
+}
+
+.post-meta {
+  font-size: 14px;
+  color: #666;
+  padding-bottom:20px;
+}
+
+h3 {
+  padding-top:20px;
+}
+
+footer {
+  color: #666;
+  text-align: center;
+  margin-bottom:30px;
+  margin-top: 50px;
+
+  hr {
+    border-color: #333;
+    width: 98%;
   }
 }

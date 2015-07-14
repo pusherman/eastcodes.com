@@ -75,7 +75,7 @@ gulp.task('htmlmin', function() {
 });
 
 gulp.task('imagemin', function () {
-  return gulp.src('app/images/*')
+  return gulp.src('app/images/**/*')
              .pipe(imagemin({
                 progressive: true,
                 svgoPlugins: [{removeViewBox: false}],

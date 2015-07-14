@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<title>eastcodes - Packaging and Sharing Native Modules with React Native</title>
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Palanquin" type="text/css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="styles/styles.css" type="text/css">
+<link rel="icon" href="images/favicon.png" type="image/png">
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-65107815-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h1>React Native: Packaging and Sharing Native Modules</h1>
+      <p class="post-meta">July 14th, 2015 by Corey</p>
+
+      <p>While playing around with React Native I needed some functionality that wasn't provided by default.  Fortunately, the React Native team gave us a bridge to use the iOS core libraries and Objective-C.  I followed <a href="https://facebook.github.io/react-native/docs/nativemodulesios.html#content">this tutorial</a> and soon I had a working example.  The next step was to package up my code so it could be easily imported in to other people's projects.  Here is how packaged my native module <a target="_blank" href="https://github.com/pusherman/react-native-network-info">react-native-network-info</a>.</p>
+
+      <h3>Prepare the node package</h3>
+      <p>Since these libraries are distributed via NPM, first get the basic node package in place.</p>
+
+      <p>Create a new react native project</p>
+<pre><code>react-native init ExampleProject</code></pre>
+
+      <p>Create the package's meta json</p>
+<pre><code>mkdir ExampleProject/node_modules/react-native-network-info
+cd ExampleProject/node_modules/react-native-network-info
+npm init</code></pre>
+
+      <p>Note: if you want your module to appear on <a target="_blank" href="https://react.parts/native-ios">react.parts</a> add the following keywords: "react-component", "react-native" and "ios".</p>
+
+
+      <h3>Create the project file in Xcode</h3>
+
+      <p>Open Xcode, "Create a new Xcode Project", "Cocoa Touch Static Library" click Next, Create a Product Name (e.g. RNNetworkInfo) and save it in our newly created folder in the node_modules folder (ExampleProject/node_modules/react-native-network-info)</p>
+
+      <p>I personally prefer a flatter directory structure for smaller projects like this so first I close Xcode then move the project, .h and .m file from the RNNetworkInfo folder to our module directory.</p>
+
+<pre><code>cd ExampleProject/node_modules/react-native-network-info
+mv RNNetworkInfo/RNNetworkInfo/* .
+mv RNNetworkInfo/RNNetworkInfo.xcodeproj/ .
+rm -rf RNNetworkInfo</code></pre>
+
+      <p>Open RNNetworkInfo.xcodeproj again and then correct the file location for both your .h and .m files.  Also make sure you click on the RNNetworkInfo project and delete the RNNetworkInfoTests target or you your build will fail.</p>
+
+      <img src="images/react-native-modules/update_file_location.png" alt="Update File Locations" class="img-rounded">
+
+
+      <h3>Develop your Objective-C (or Swift) Library</h3>
+
+      <p>Check out <a target="_blank" href="https://facebook.github.io/react-native/docs/nativemodulesios.html">React Native's docs</a> for more details on how to pass data between Objective-C and React Native.</p>
+
+      <p>Note: if you get "RCTBridge.h" file not found-- in Xcode click on the project in the left nav pane then go to Build Settings and in Header Search Paths add <code>$(SRCROOT)/../react-native/React</code> and <code>$(SRCROOT)/../../React</code> mark both as "recursive"</p>
+
+      <img src="images/react-native-modules/add_header_search_path.png" alt="Header Search Paths" class="img-rounded">
+
+      <p>Build the project to make sure the build is successful.</p>
+
+      <h3>Create the node package wrapper</h3>
+
+      <p>Create "NetworkInfo.js" in ExampleProject/node_modules/react-native-network-info (or whatever name is in the 'main' attribute of your package.json).</p>
+
+      <p>In my case, I had 2 methods: getSSID and getIPAddress</p>
+
+
+<pre><code>'use strict';
+
+var RNNetworkInfo = require('NativeModules').RNNetworkInfo;
+
+var NetworkInfo = {
+  getSSID(ssid) {
+    RNNetworkInfo.getSSID(ssid);
+  },
+
+  getIPAddress(ip) {
+    RNNetworkInfo.getIPAddress(ip);
+  }
+};
+
+module.exports = NetworkInfo;</code></pre>
+
+      <h3>Import your library from Xcode to ExampleProject</h3>
+      <p>
+        Open ExampleProject.xcodeproj
+      </p>
+      <p>
+        Right click on the Libraries folder and "Add files to ExampleProject" and find "RNNetworkInfo.xcodeproj" (in node_modules) and "Add"
+        </p>
+      <p>
+        Click on your Project then the "Build Phases" tab, Link Binary With Libraries, Plus icon to add, select libRNNetworkInfo.a and Add
+      </p>
+
+      <img alt="Link Binary With Libraries" class="img-rounded" src="images/react-native-modules/add_library.png">
+
+      <h3>Use your library in ExampleProject</h3>
+      <p>Click on the play icon to bring up the simulator and see your react native boilerplate app.  Once up, edit index.ios.js in your ExampleProject file, import and use your new package:</p>
+
+<pre><code>var NetworkInfo = require('react-native-network-info');
+
+NetworkInfo.getIPAddress(ip => {
+  console.log(ip);
+});</code></pre>
+
+      <p>Note: the console.log output will be in Xcode's debug console.</p>
+
+      <h3>Share!</h3>
+      <p>Once everything is complete just <a target="_blank" href="https://gist.github.com/coolaj86/1318304">publish your node_module to NPM</a> to make it easy for others to import :)</p>
+
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <div class="footer">
+        <hr>
+        <p>written with <i class="fa fa-heart"></i> from North Carolina</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
